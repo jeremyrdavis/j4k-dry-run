@@ -6,8 +6,13 @@ import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 @QuarkusTest
 public class ExampleResourceTest {
+
+    @ConfigProperty(name="hello.message")
+    String helloMessage;
 
     @Test
     public void testHelloEndpoint() {
@@ -15,7 +20,6 @@ public class ExampleResourceTest {
           .when().get("/resteasy/hello")
           .then()
              .statusCode(200)
-             .body(is("hello"));
+             .body(is(helloMessage));
     }
-
 }
